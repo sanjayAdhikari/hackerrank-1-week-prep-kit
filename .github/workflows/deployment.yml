@@ -1,0 +1,32 @@
+name: Deployment Project
+on: [push, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch the code
+        uses: actions/checkout@v3
+      - name: Install nodejs 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run Tests
+        run: npm test
+  deployment:
+#    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch the code
+        uses: actions/checkout@v3
+      - name: Install nodejs 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build the typescript
+        run: tsc super_digit.ts
+      - name: run the script
+        run: node super_digit.js
